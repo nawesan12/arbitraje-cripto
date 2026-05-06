@@ -106,7 +106,15 @@ async function main() {
 
   // TUI o headless
   if (process.env.HEADLESS === 'true') {
-    logger.info('modo HEADLESS — TUI deshabilitada');
+    logger.info('modo HEADLESS — TUI deshabilitada, esperando señales');
+    await new Promise<void>((resolve) => {
+      const onSignal = (sig: string) => {
+        logger.info({ sig }, 'señal recibida, cerrando');
+        resolve();
+      };
+      process.once('SIGTERM', () => onSignal('SIGTERM'));
+      process.once('SIGINT', () => onSignal('SIGINT'));
+    });
   } else {
     const ink = render(
       React.createElement(App, { scanner, pg, adapters, fees })
@@ -116,7 +124,13 @@ async function main() {
 
   // Shutdown
   scanner.stop();
-  if (tg.bot) tg.bot.stop('SIGTERM');
+  if (tg.bot) {
+    try {
+      tg.bot.stop('SIGTERM');
+    } catch {
+      /* bot ya estaba detenido */
+    }
+  }
   await redis.disconnect();
   await pg.close();
   process.exit(0);
