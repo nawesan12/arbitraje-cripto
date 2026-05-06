@@ -1,0 +1,40 @@
+{
+  "name": "omniarbitraje-ar",
+  "version": "0.1.0",
+  "description": "Bot de arbitraje cripto automatizado para mercado argentino (USDT/ARS)",
+  "private": true,
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsx watch src/index.ts",
+    "start": "node dist/index.js",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "axios": "^1.7.7",
+    "ccxt": "^4.4.20",
+    "dotenv": "^16.4.5",
+    "ink": "^5.1.0",
+    "ioredis": "^5.4.1",
+    "pg": "^8.13.1",
+    "pino": "^9.5.0",
+    "pino-pretty": "^11.3.0",
+    "react": "^18.3.1",
+    "telegraf": "^4.16.3",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^22.7.5",
+    "@types/pg": "^8.11.10",
+    "@types/react": "^18.3.11",
+    "tsx": "^4.19.1",
+    "typescript": "^5.6.3",
+    "vitest": "^2.1.3"
+  }
+}

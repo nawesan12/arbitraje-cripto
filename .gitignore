@@ -1,0 +1,20 @@
+node_modules/
+dist/
+logs/
+*.log
+
+# Secrets
+.env
+.env.local
+.env.*.local
+runtime-overrides.json
+
+# Editor
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# Test
+coverage/
+.vitest-cache/
