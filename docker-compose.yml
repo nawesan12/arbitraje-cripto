@@ -34,6 +34,7 @@ services:
 
   app:
     build: .
+    image: omniarbitraje-ar:latest
     container_name: omniarb-app
     restart: unless-stopped
     depends_on:
@@ -44,13 +45,35 @@ services:
     env_file:
       - .env
     environment:
+      # Override URLs internas (los containers se ven entre sí)
       REDIS_URL: redis://redis:6379
       POSTGRES_URL: postgres://omni:omni@postgres:5432/omniarb
+      # En Docker corremos headless: control 100% por Telegram bot.
+      # Para TUI usar: docker compose run --rm app-tui
+      HEADLESS: "true"
     volumes:
       - ./logs:/app/logs
-    # La TUI requiere terminal interactiva. Para usar TUI conectate con:
-    #   docker compose run --rm app
-    # Para correr el bot como daemon (sin TUI), seteá HEADLESS=true en .env
+      - ./runtime-overrides.json:/app/runtime-overrides.json
+
+  # Servicio "one-shot" para abrir la TUI cuando lo necesites.
+  # Uso: docker compose run --rm app-tui
+  app-tui:
+    image: omniarbitraje-ar:latest
+    profiles: ["tui"]
+    depends_on:
+      redis:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+    env_file:
+      - .env
+    environment:
+      REDIS_URL: redis://redis:6379
+      POSTGRES_URL: postgres://omni:omni@postgres:5432/omniarb
+      HEADLESS: "false"
+    volumes:
+      - ./logs:/app/logs
+      - ./runtime-overrides.json:/app/runtime-overrides.json
     tty: true
     stdin_open: true
 

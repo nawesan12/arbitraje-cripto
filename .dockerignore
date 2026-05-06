@@ -1,0 +1,16 @@
+node_modules
+dist
+logs
+.env
+.env.local
+.env.*.local
+runtime-overrides.json
+.git
+.gitignore
+.vscode
+.idea
+*.md
+tests
+scripts
+coverage
+.DS_Store
