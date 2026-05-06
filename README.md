@@ -51,7 +51,44 @@ públicos de **CriptoYa** como fuente cruzada.
 
 ---
 
-## Setup rápido
+## 🪟 Distribuir / correr en Windows
+
+La forma más simple de que **otra persona corra el bot en Windows** sin instalar Node:
+
+### Requisitos en su PC
+- [Docker Desktop para Windows](https://www.docker.com/products/docker-desktop/) (gratis)
+- Internet
+
+### Pasos
+
+1. **Pasale la carpeta del proyecto** comprimida (sin `node_modules`, sin `.env`, sin `runtime-overrides.json`):
+   ```bash
+   # En tu Mac/Linux:
+   tar --exclude='node_modules' --exclude='.env' --exclude='runtime-overrides.json' \
+       --exclude='dist' --exclude='logs' --exclude='.git' \
+       -czf omniarbitraje-ar.tar.gz arbitraje-cripto
+   ```
+
+2. **En Windows** descomprime el .tar.gz (con 7-Zip o similar).
+
+3. **Doble-click** en `start.bat` y listo:
+   - Si no existe `.env`, lo crea desde `.env.example` y le avisa que lo edite con sus credenciales.
+   - Cuando esté el `.env`, vuelve a hacer doble-click en `start.bat` y arranca todo.
+   - El sistema corre como **daemon** y se controla 100% desde el bot de Telegram.
+
+4. **Para detener**: doble-click en `stop.bat`.
+
+5. **Para abrir la TUI** (opcional, no es necesario):
+   ```cmd
+   docker compose run --rm app-tui
+   ```
+
+### Linux/macOS
+Mismo flujo pero con `./start.sh` y `./stop.sh`.
+
+---
+
+## Setup rápido (desarrollo)
 
 ### 1. Clonar y configurar
 
